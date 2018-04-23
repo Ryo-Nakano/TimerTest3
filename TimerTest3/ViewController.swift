@@ -9,17 +9,35 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    var timer = Timer()//Timerクラスをインスタンス化→変数timerに格納→Timerクラスのメソッドが使えるようになる！
+    
+    var isRunning: Bool = false//メソッドが稼働しているかどうかを判断するフラグ(初期値はfalse)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    //このままだと、『ボタン押すたびにこのメソッド呼ばれちゃう』から、true,falseのフラグつけよう。
+    @IBAction func timerMethod(){
+        if isRunning == false {
+            print("START!!!")
+//            let timer :Timer//Timer型の変数timerを宣言
+            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(printRandomNumber), userInfo: nil, repeats: true)
+            isRunning = true
+        }
+        else{
+            print("STOP!!!")
+            timer.invalidate()//timerの無効化
+            isRunning = false
+        }
     }
-
+    
+    @objc func printRandomNumber(){
+        print(arc4random_uniform(100))
+    }
 
 }
 
